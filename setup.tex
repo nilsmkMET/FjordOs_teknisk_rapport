@@ -1,0 +1,77 @@
+\clearpage
+\section{Model specifics}
+\label{sec:setup}
+The version of ROMS we use is downloaded from the main ROMS repository\footnote{\texttt{http://www.myroms.org/svn/src/trunk}}, which includes the latest version from Hernan Arango (the Rutgers branch). This version is without sea ice, but in contrast to most other ROMS versions allows data assimilation.
+
+ROMS consists of several built-in schemes and algorithms, and it uses C-preprocessing to activate the various physical and numerical options. ROMS is a very modern and modular code written in F90/F95. The entire input and output data structure of the model is via NetCDF which facilitates the interchange of data between computers, user community, and other independent analysis software.
+\input{Fig12_roms_grid_horizontal.tex}
+
+In the horizontal the model state variables are staggered using an Arakawa C-grid as shown by Figure \ref{fig:romsgridh}. The free-surface, density, and active/passive tracers are located at the center of the cell ($\rho$ points) whereas the horizontal current components ($u$, $v$) are located at the west/east and south/north edges of the cell, respectively. In ROMS all the arrays containing state variables are dimensioned with the same size in the horizontal to facilitate parallelization. The size of the model's horizontal grid is defined in the ROMS input file (\texttt{ocean.in}) with interior points only (denoted $L-1$ and $M-1$ in Figure \ref{fig:romsgridh}). However, all input forcing files must, and output result files do, contain fields at the full grid, which includes the one extra grid point in the boundary zone.
+
+In the vertical ROMS make use of a stretched terrain-following coordinate denoted $s=s(x,y,z,t)$, sometimes referred to as modified $\sigma$-coordinates \citep{song:haidv:1994}. As a result, each grid cell has a different level thickness (denoted $H_z = \pzs z$) and volume. The model state variables are vertically staggered so that horizontal momentum, density, and active/passive tracers are located at the center of the grid cell. The vertical velocity and vertical mixing variables ($Akt$, $Akv$, etc) are located at the bottom and top faces of the cell as displayed by Figure \ref{fig:romsgridv}. The stretched coordinate allows increased resolution in areas of interest, such as thermocline and bottom boundary layers. 
+\input{Fig13_roms_grid_vertical.tex}
+
+Regarding the FjordOs CL model we opted for 42 $s$-layers with an increased resolution in the surface layer and a reduced resolution near the bottom. This was achieved by letting $Vtransform=2$, $Vstretching=2$, $h_c = 100$ m, $\th_s = 6.0$ and $\th_b = 0.1$, where $h_c$ is a critical depth above which the vertical spacing of the $s$-levels become nearly uniform and independent of the local depth $h$ as long as $h >> h_c$. The minimum depth was set to $h_min=10$ m. By having the $s$-levels more confined to the surface layers less smoothing is necessary to minimize the pressure gradient error inherent in all terrain-following coordinate models \citep{haney:1991}. The smoothing is controlled by two parameters referred to as the $r$-factors (see Section \ref{subsec:bathy}). An example of the vertical distribution of the $s$-levels is shown by Figure \ref{fig:roms_slevels}.
+\input{Fig14_roms_slevels.tex}
+
+ROMS has several options that determines the numerical schemes for lateral advection of momentum and tracers. In the results displayed in Section \ref{sec:resul} we have employed a fourth-order, centered advection scheme. This necessitate the application of explicit lateral eddy viscosity and diffusion. To parametrize the subgrid-scale vertical mixing processes we use the Generic Length Scale (GLS) scheme  \citep{umlau:burch:2003}. Values chosen for the various parameters and options activated to derive the results exhibited by Section \ref{sec:resul} are listed in Table \ref{tab:parameters}. 
+
+To run the model several external inputs or forcing have to be supplied, such as atmospheric input, river input, tides, and input of sea level, currents and hydrography at the model's open lateral boundaries, in addition to bathymetry as described in Section \ref{sec:forcing}.   
+\input{Table_para.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Bathymetry and external forcing}
+\label{sec:forcing}
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{Bathymetry}
+\label{subsec:bathy}
+The bathymetry data for the FjordOs CL model were collected from ?????? and the Hydrographic service (Statens Kartverk Sj{\o}). The original resolution was 50 m. Modifications of some of the topographical features were needed to fulfill the restriction of avoiding one-point bays in ROMS. Additionally, effort was made in opening up narrow straits important for the local circulation, in particular advection of brackish water originating from rivers. To avoid model instability and/or spurious deep currents the final masked bathymetry is smoothed to fulfill a requirement on the ROMS slope or $r_{x1}$-factor \citep{beckm:haidv:1993}, defined as
+\be
+ r_{x1} = \frac{ h_{i-1} - h_{i} }{ h_{i-1} + h_{i} }
+\ee
+where $h$ is the bottom depth and the index $i$ indicates a model grid point. The final bathymetry in FjordOs CL has a maximum $r_{x1} = ?????$.
+
+In addition, Haney (1991) argues that in order for difference schemes to be hydrostatically
+consistent, the parameter settings must be defined so that
+\be
+\label{eq:haney}
+ \left| \frac{s}{h} \px h\right|\frac{\Dx}{\Ds} < 1
+\ee
+where $s$ denotes the value of the terrain-following $s$-layer (0 at the surface, -1 at the bottom), $\px h$ is the difference in depth over a grid cell, $\Dx$ is the grid size and $\Ds$ is the vertical distance between $s$-layers. For instance in a grid cell with total depth of $h_i=1000$ m, with a neighboring depth of $h_i-1=900$ m, with a grid resolution $\Dx=800$ m, near the seabed between $s$-layer 0.9 and 1.0, the Haney number would be 1. In practice the Haney number is estimated by
+\be
+ r_{x2} = r_{x1}\frac{Z_w(i,j,k) - Z_w(i-1,j,k) + Z_w(i,j,k-1) - Z_w(i-1,j,k-1)}
+                     {Z_w(i,j,k) + Z_w(i-1,j,k) - Z_w(i,j,k-1) + Z_w(i-1,j,k-1)}
+\ee
+where $Z_w$ is the depth of the water column at grid coordinates ($i,j$) and at $s$ level $k$. In the case where the second deepest $s$-level of grid cell ($i,j$) has equal depth to the deepest level in grid cell ($i-1,j$) the Haney number will be 1. Obeying the criteria (\ref{eq:haney}) ensures that for a certain grid size the vertical grid increment is small enough for the $s$-layer immediately above (below) remains above (below) within the distance of one grid interval. Although there is no mathematically well-defined thresholds a rule of thumb is $r_{x2} \lesssim 10$. There is no consensus in the ROMS community on the upper limit for $r_{x2}$ though. Thus one has to consider the recommendations on thresholds to be the outcome of practical experience. For instance Kate Hedstr{\o}m allows a Haney number of several tens while Alexander Shchepetkin considers a value below 3 as ``safe and conservative'' and values above 8-10 as ``insane''\footnote{ROMS Discussion Forum (\texttt{https://www.myroms.org/forum/viewtopic.php?f=14\&t=612)}}. It boils down to controlling the pressure gradient error. Recent examples for Norwegian waters and fjords are \cite{albre:etal:2011} and \cite{staal:roed:2016}. The latter applied ROMS for the inner part of the Oslofjord inside of the {\DR} sill. 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{Atmospheric forcing}
+\label{subsec:atmos}
+The necessary atmospheric input is extracted from the AROME-MetCoOp model that runs operationally at MET Norway \citep{mulle:etal:2015}. It is a convective scale (non-hydrostatic) model providing forecasts with a lead time of 66 hours four times a day from analyses at 00, 06, 12 and 18 UTC. It has a grid resolution of 2.5 km, and was made operational in March 2014. Available to us are analyses and forecasts saved every four hours since April 2014, as well as real time forecasts covering the are shown in Figure \ref{fig:arome}.
+\input{Fig15_arome.tex}
+
+We extract from AROME-MetCoOp, as listed in Table \ref{tab:atmos_para}, surface analysis and forecasts of wind, pressure, temperature, and cloud cover daily at 00, 06, 12, 18 UTC. We also extract model level analysis of humidity at the same frequency. In addition are extracted surface forecast of precipitation and long wave radiation as 12 hrs accumulated fields at 00 and 12 UTC, and short wave radiation as 24 hrs accumulated fields at 00 and 12 UTC. AROME-MetCoOp store all these parameters at its grid resolution. From these parameters and variables fluxes are computed using the internal bulk-flux routines in ROMS \citep[e.g.,][]{roed:deber:2004}. FjordOs CL also computes internally, from analytic expressions, net long wave radiation and short wave radiation.
+\input{Table_atmos.tex}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{Input at open lateral boundaries}
+\label{subsec:lateral}
+
+%    %    %    %    %    %    %    %    %    %    %    %    %   
+\subsubsection{De-tided input}
+\label{subsubsec:detid}
+The FjordOs CL grid has one wide open boundary located at its southern end towards the Skagerrak. Here we use input from the NorKyst800 model in the form of daily mean (de-tided) values of sea level, currents and hydrography. The NorKyst800 model covers the Norwegian coast including the Skagerrak and the Oslofjord with a grid resolution of 800 m as shown by Figure \ref{fig:n800}. To include the forcing from the NorKyst800 model a one-way nesting technique is employed as described in \cite{march:etal:2001}.  
+
+The NorKyst800 is run operationally at MET Norway once a day and provides hourly forecasts with a lead time of 66 hrs. Daily mean values are computed and stored as netCDF files. These fields with some modifications may in addition be used as initial values to "cold" start FjordOs (Section \ref{sec:resul}). The archive containing daily mean values is updated automatically and adds back to 2012. The hourly forecast values are stored and archived one week back in time only. Both archives are available from MET Norway's thredds server\footnote{\texttt{http://thredds.met.no/thredds/fou-hi/norkyst800m.html}}. As input at the lateral open boundary FjordOs CL requires daily mean sea level values in addition to daily mean depth profiles of currents temperature and salinity.
+
+%    %    %    %    %    %    %    %    %    %    %    %    %   
+\clearpage
+\subsubsection{Tidal forcing}
+\label{subsubsec:tides}
+\input{tides.tex}
+%  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  
+
+\subsection{River input}
+\label{subsec:river}
+\input{river.tex}
+

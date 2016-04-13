@@ -1,0 +1,465 @@
+\documentclass[12pt,a4paper,english]{article}
+%\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
+
+% Latex report template for The Norwegian Meteorological Institute
+% Updated 2015-06-25 by Oskar Landgren, oskar.landgren@met.no
+% Edit as you wish, but please report if you find any errors.
+% The old template has been circulating in many different versions,
+% so you may have more clever implementations for certain
+% applications. Improvement suggestions are welcome!
+% 
+% Update history:
+% 2015-06-25 - More bug fixes. Works without interruption either directly from pdflatex
+%              or by using latex and dvipdf. A few "Overfull \hbox" errors are normal.
+%              (The DVI file does not show correct font in Ubuntu Document Viewer,
+%              but is correct after conversion to PDF.)
+% 2015-02-16 - Minor fixes (e.g. now using \providecommand{\cftchapfont} instead of renewcommand{....})
+% 2015-02-04 - Heading font changed to Arial/Helvetica while keeping main text in Times New Roman.
+% 2014-11-17 - Font changed to Times New Roman.
+% 2014-11-10 - Minor fixes, plus added a few comments about how to assign affiliations for authors.
+% 2013-06-28 - Thanks to Lars-Petter Røed for adding various useful packages. (Comments beginning with "LPR:")
+% 2013-06-18 - Added agufull04.bst and PDF versions of logo for pdftex users. Thanks to Magne Simonsen.
+
+%%% For debugging, use
+% \errorcontextlines 10000
+
+\usepackage[english]{babel}
+
+%%% LPR: Changed graphic package. Note that pstricks is in conflict with package xcolor
+%\usepackage{graphicx}
+\usepackage{epsfig}            % To allow figures
+\usepackage{pstricks}          % To draw color pictures directly
+
+%\usepackage{pstcol,pst-grad}   % To construct pictures directly
+%\usepackage{pst-node,pst-plot} % To construct pictures directly
+\usepackage{graphics}
+
+\usepackage{supertabular}
+\usepackage{longtable}
+\usepackage{multicol}
+
+\usepackage{fancyhdr}
+\usepackage[verbose,a4paper,tmargin=30mm,bmargin=37.5mm,lmargin=30mm,rmargin=30mm]{geometry}
+
+%%% OL: The new visual identity uses Arial as header font. It is not a free font so it may not be included in your Linux installation.
+%       You may use the uarial package, which can be installed by running the following command in your terminal: sudo getnonfreefonts-sys -a
+%       Since it may not be possible to use for everyone (e.g. if you do not have permissions to run the command above),
+%       another similar sans-serif font is Helvetica, which should be installed by default.
+%\usepackage{uarial}
+\usepackage{helvet}
+
+%\usepackage{times}   % OL: Older version of Times font.
+\usepackage{mathptmx} % OL: Times New Roman, including math symbols.
+\usepackage[T1]{fontenc}
+
+% Arial was previously used in main text, but last version has gone back to Times New Roman.
+% Required lines for replacing the main font:
+%\renewcommand{\familydefault}{\sfdefault}
+%\renewcommand{\rmdefault}{phv}
+%\renewcommand{\sfdefault}{phv}
+
+\usepackage{rotating}
+
+%%% LPR: Packages amssymbol and amsmath added to make use of extended
+%        special and mathematical characters, e.g., bold greek letters        
+\usepackage{amssymb}       % More special characters          
+\usepackage{amsmath}       % More mathematical characters
+
+%%% LPR: Package natbib added to ease referencing. Remember to 
+%        specify the pathway where to find the bib-file (the file
+%        containing the references) at the location where you wish the
+%        the reference chapter to appear (see end of this file).
+\usepackage{natbib} % Needed e.g. for \citep
+
+%%% OL: These packages were used before, but I could not find them in my TeX installation.
+%\usepackage{publication} 
+%\usepackage{tellus} 
+
+%%% LPR: The package multirow added to allow for multiple rows
+\usepackage{multirow}
+
+%%% LPR: Package verbatim added to allow use of comment environment, that is,
+%        to allow use of \begin{comment} and \end{comment}
+\usepackage{verbatim}          % Use the verbatim styles
+
+%%% LPR: Package dcolumn added to help align entries in tables
+\usepackage{dcolumn}
+
+\definecolor{METblue}{cmyk}{0.85,0,0.2,0.2}
+
+%%% Putting the section numbers in the left margin using package titlesec
+%   More info at http://texdoc.net/texmf-dist/doc/latex/titlesec/titlesec.pdf
+\usepackage{titlesec}
+
+% Titleformat syntax: \titleformat{command}[shape]{format}{label}{sep}{before-code}[after-code]
+\titleformat{\section}
+  [block]
+  { \normalfont\sffamily\Large\bfseries\color{METblue} }
+  {\makebox[2em][r]{\thesection}}
+  {5mm}
+  {\vspace{5mm}}
+
+\titleformat{\subsection}[block]%
+  {\normalfont\sffamily\bfseries}%
+  {\makebox[2em][r]{\thesubsection}}%
+  {5mm}
+  {\vspace{3mm}}[]
+\titleformat{\subsubsection}[block]%
+  {\normalfont\sffamily\bfseries}%
+  {\makebox[3em][r]{\thesubsubsection}}%
+  {5mm}
+  {\vspace{3mm}}[]
+
+% Titlespacing syntax: \titlespacing*{command}{left}{before-sep}{after-sep}[right-sep]
+\titlespacing*{\section}{-17mm}{5mm}{0mm}
+\titlespacing*{\subsection}{-13.5mm}{5mm}{0mm}
+\titlespacing*{\subsubsection}{-17.5mm}{5mm}{0mm}
+
+%%% Formatting the table of contents
+\usepackage{tocloft}
+\renewcommand{\cfttoctitlefont}{\sffamily\bfseries\color{METblue}\Large}
+\providecommand{\cftchapfont}{\sffamily\bfseries }
+\renewcommand{\cftsecfont}{\sffamily\bfseries }
+\renewcommand{\cftsubsecfont}{\sffamily }
+\renewcommand{\cftsubsubsecfont}{\sffamily }
+\providecommand{\cftsubsubsubsecfont}{\sffamily }
+\renewcommand{\cftfigfont}{Figure }
+\renewcommand{\cfttabfont}{Table }
+\providecommand{\cftchappagefont}{\sffamily}
+\renewcommand{\cftsecpagefont}{\sffamily\bfseries}
+\renewcommand{\cftsubsecpagefont}{\sffamily}
+\renewcommand{\cftsubsubsecpagefont}{\sffamily}
+\providecommand{\cftsubsubsubsecpagefont}{\sffamily}
+
+%\listfiles
+\renewcommand{\baselinestretch}{1.33}
+% \geometry{verbose,a4paper,tmargin=20mm,bmargin=20mm,lmargin=30mm,rmargin=30mm}
+
+%%% OL: If your authors need different affiliations you may use one of the following solutions:
+% "authblk", http://tex.stackexchange.com/questions/9594/adding-more-than-one-author-with-different-affiliation
+% "revtex", http://tex.stackexchange.com/questions/5805/revtex-4-1-multiple-affiliations
+% or redefine the author command using http://tex.stackexchange.com/questions/107739/authors-with-multiple-affiliations
+
+%% LPR: These are my favorite definitions and abbreviations. Just add or delete as you see fit for your purpose
+% Definitions:
+% 1. Often repeated stuff
+\def\DR{Dr{\o}bak}
+\def\HAA{H{\aa}{\o}ya Island}
+\def\wrt{with respect to}
+\def\hhv{respectively}
+\def\fe{for instance}
+\def\dvs{that is}
+\def\metno{Norwegian Meteorological Institute}
+\def\swe{shallow water equations}
+
+% 2. Mathematical stuff: 
+% 2.1 Equations:
+\def\be{\begin{equation}}
+\def\ee{\end{equation}}
+\def\beq{\begin{eqnarray}}
+\def\eeq{\end{eqnarray}}
+\def\bfig{\begin{figure}}
+\def\efig{\end{figure}}
+\DeclareMathOperator{\sgn}{sgn}
+% 2.2 Differentiation:
+\def\pt{\partial_t}
+\def\px{\partial_x}
+\def\py{\partial_y}
+\def\pz{\partial_z}
+\def\ptt{\partial_t^2}
+\def\pxx{\partial_x^2}
+\def\pyy{\partial_y^2}
+\def\pzz{\partial_z^2}
+\def\pts{\partial_{t'}}
+\def\pxs{\partial_{x'}}
+\def\pys{\partial_{y'}}
+\def\pzs{\partial_{s}}
+\def\dels{\nabla_{s}}
+% 2.3 Numerical time step and grid steps:
+\def\Dx{\Delta x}
+\def\Dy{\Delta y}
+\def\Dz{\Delta z}
+\def\Dt{\Delta t}
+\def\Ds{\Delta s}
+% 2.4 Vectors:
+\def\vec{\mathbf}
+\def\bu{\mathbf{u}}
+\def\bv{\mathbf{v}}
+\def\bi{\mathbf{i}}
+\def\bj{\mathbf{j}}
+\def\bk{\mathbf{k}}
+\def\bU{\mathbf{U}}
+\def\bV{\mathbf{V}}
+\def\ud{\textrm{d}}
+% 2.5 Convenient abbrivations
+\def\th{\theta}
+\def\bhu{\vec{\bar{u}}}
+\def\hu{\bar{u}}
+\def\hv{\bar{v}}
+\def\hp{\bar{\phi}}
+\def\ha{\hat{a}}
+\def\hb{\hat{b}}
+\def\hc{\hat{c}}
+\def\hC{\bar{C}}
+\def\hd{\hat{d}}
+\def\he{\hat{e}}
+\def\hf{\hat{f}}
+\def\hg{\hat{g}}
+\def\mc{\multicolumn}
+% 8. Sigma coordinate derivatives
+\def\ptg{\partial_{t'}}
+\def\pxg{\partial_{x'}}
+\def\pyg{\partial_{y'}}
+\def\pzg{\partial_{\sigma}}
+\def\delg{\nabla_{\sigma}}
+% 2.6 Operators
+\def\del{\nabla_H}
+\def\dels{\nabla_s}
+\def\eps{\epsilon}
+\def\vphi{\varphi}
+\def\matO{\mathcal{O}}
+\def\matG{\mathcal{G}}
+\def\matH{\mathcal{H}}
+% 2.7 Tensors
+\def\mat{\boldsymbol}
+\def\matI{\boldsymbol{\mathcal{I}}}
+\def\matA{\boldsymbol{\mathcal{A}}}
+\def\matB{\boldsymbol{\mathcal{B}}}
+\def\matC{\boldsymbol{\mathcal{C}}}
+\def\matD{\boldsymbol{\mathcal{D}}}
+\def\matM{\boldsymbol{\mathcal{M}}}
+\def\matE{\boldsymbol{\mathcal{E}}}
+\def\matF{\boldsymbol{\mathcal{F}}}
+\def\matL{\boldsymbol{\mathcal{L}}}
+\def\matU{\boldsymbol{\mathcal{U}}}
+\def\matV{\boldsymbol{\mathcal{V}}}
+\def\matK{\boldsymbol{\mathcal{K}}}
+
+% 3. Specialties 
+
+% End LPR definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --------------------------------------
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Specify path to bibliography style
+\bibliographystyle{/home/larspr/LATEX/bst-files/agufull04}
+%%% LPR: Note that you must give the path to the directory of your reference file (*.bib file). See the end of this file
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Specify graphics path (where to find the figures). Automatically chooses PDF or EPS depending on latex (EPS) or pdflatex (PDF).
+\graphicspath{{./GRAPHICS/}} 
+
+\pagenumbering{roman} % Use roman numerals for page numbering before main content. OL: The new template begins with page 1 on the cover.
+\thispagestyle{empty}  % Hide page numbers
+
+\noindent
+\begin{tabular}{@{} p{63mm} p{50mm} r}
+\includegraphics*[]{met_rapport_logo_eng} % Automatically uses PDF or EPS depending on latex (EPS) or pdflatex (PDF).
+&
+\fontsize{27.5pt}{33pt} \selectfont \bf \sffamily MET{\color{gray} report}
+&
+ \begin{minipage}[b]{28mm}
+  \begin{flushright}
+   \footnotesize \sffamily No. X/2015 \\ ISSN 2387-4201 \\ Oceanography	% Report number and Category
+  \end{flushright}
+ \end{minipage}
+\end{tabular}
+
+\vfill
+
+%%% LPR: Note that the ratio between the two numbers in \fontsize{a}{b} below must be such that b/a = 1.2
+\begin{flushright}
+{\fontsize{20pt}{24pt}\selectfont \bf \sffamily A high-resolution, curvilinear version of ROMS for the Oslofjord}	% Title
+
+{\fontsize{14.0pt}{16.8pt}\selectfont \bf \sffamily FjordOs technical report No. 2% Subtitle
+%%% LPR: Changed from \vspace{5mm}
+\vspace{5mm}	% \vspace{5mm}
+\\
+
+\sffamily Lars Petter R{\o}ed, Nils Melsom Kristensen, \\Karina Bakkel{\o}kken Hjelmervik and André Staalstr{\o}m	% Author name(s)
+}
+\end{flushright}
+
+%\vspace{25mm}
+\vspace{2mm}
+
+\begin{figure}[!h]
+ \begin{center}
+%% LPR: The original MET_report template command 
+%\includegraphics*{met_rapport_monster} 
+%% is replaced by:
+  {\includegraphics[height=13cm]{droebak_current_2015-10-17_20UTC}}	% Graphic. Automatically uses PDF or EPS in same directory depending on latex or pdflatex.
+ \end{center}
+\end{figure}
+
+%\newpage
+
+
+\clearpage
+\thispagestyle{empty}  % Hide page numbers
+
+\setlength{\unitlength}{1mm}  %Needed for picture environment
+
+\begin{table}[!ht]
+
+\begin{tabular}[c]{lr}
+\vspace{5mm}
+\includegraphics*{met_rapport_logo_eng} & \hspace{43mm}
+{\fontsize{27.5pt}{33pt}\selectfont \bf \sffamily MET{\color{gray} report}}\\
+\end{tabular}
+
+\sffamily{
+\begin{tabular}[t]{|p{110mm}|p{40mm}|} \hline
+{\bf \sffamily Title}                  & {\bf \sffamily Date}               \\ 
+\small{A high-resolution, curvilinear version of ROMS for the Oslofjord: FjordOs technical report No. 2}
+                             & \today                   \\ \hline
+{\bf \sffamily Section}                & {\bf \sffamily Report no.}         \\ 
+ Ocean and Ice                         &  4/2016                  \\ \hline
+{\bf \sffamily Author(s)}                 & {\bf \sffamily Classification}     \\ 
+\small{Lars Petter R{\o}ed, Nils Melsom Kristensen, Karina Bakkel{\o}kken Hjelmervik, André Staalstr{\o}m}                
+                             & \begin{picture}(20,4)(-2,-1.0)
+                               \put (0,0){\circle*{4}}
+                               \put (7,0){\makebox(0,0){Free}}
+                               \put (15,0){\circle{4}}
+                               \put (27,0){\makebox(0,0){Restricted}}
+                               \end{picture}
+                               \\ \hline
+{\bf \sffamily Client(s)}              & {\bf \sffamily Client's reference} \\ 
+Client name                  &               \\ \hline
+\end{tabular}
+
+\begin{tabular}[t]{|p{154.3mm}|}
+{\bf \sffamily Abstract}                                          \\
+\small{\input{abstr.tex} } 
+%\input{abstr_short.tex}	% Abstract text...
+%\\[50mm] % Add whitespace if necessary
+\\ \hline
+{\bf \sffamily Keywords}                                          \\ 
+  \small{Ocean model, Numerical methods, Oslofjord}    \\ 
+\hline
+\end{tabular}
+}
+
+\begin{tabular}[t]{cc}
+					&			\\
+					&			\\
+					&			\\
+\line(1,0){70}				& \line(1,0){70}	\\ 
+\small{Disciplinary signature}		& \small{Responsible signature}	\\
+\small{Kai H. Christensen}		& \small{Lars Anders Breivik}	\\       % Add names if needed
+\hspace{75mm}				& \hspace{75mm}		\\
+
+\end{tabular}
+\end{table}
+
+\clearpage
+
+
+\thispagestyle{empty} % Hide page numbers
+\newpage
+\thispagestyle{fancy} % footer from fancyhdr package
+\headheight=15pt
+\renewcommand{\headrulewidth}{0pt}
+
+\section*{\hspace{17mm}Abstract}
+\input{abstr.tex}	% Abstract text...
+
+%\vfill
+
+\fancyfoot{
+% If abstract on separate page is not needed, move the following table to the page before
+\begin{tabular}[b]{p{40mm}p{25mm}p{25mm}p{25mm}p{25mm}}
+ \begin{minipage}[l]{40mm} \tiny \color{METblue} {\bf Norwegian Meteorological Institute}\\ Org.no 971274042\\ post@met.no\\ www.met.no / www.yr.no
+ \end{minipage} & 
+ \begin{minipage}[l]{25mm} \tiny \color{METblue} {\bf Oslo}\\ P.O. Box 43, Blindern\\ 0313 Oslo, Norway\\ T. +47 22 96 30 00
+ \end{minipage} &
+ \begin{minipage}[l]{25mm} \tiny \color{METblue} {\bf Bergen}\\ All\'egaten 70\\ 5007 Bergen, Norway\\ T. +47 55 23 66 00
+ \end{minipage} & 
+ \begin{minipage}[l]{25mm} \tiny \color{METblue} {\bf Troms\o}\\ P.O. Box 6314, Langnes\\ 9293 Troms\o, Norway\\ T. +47 77 62 13 00
+ \end{minipage} & 
+ \begin{minipage}[l]{25mm} \tiny \color{METblue} 
+ \end{minipage}
+\end{tabular}
+}
+
+%\thispagestyle{empty} % Hide page numbers
+\clearpage
+%\thispagestyle{empty} % Hide page numbers
+\tableofcontents
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Set page style to 'plain' and page numbers to arabic digits (starts on 1)
+%\newpage
+\pagestyle{plain}
+\pagenumbering{arabic}
+
+%% Start with and introductory chapter with possible subsections and subsubsections
+\input{intro.tex}
+
+\input{model.tex}
+
+\input{setup.tex}
+
+\input{resul.tex}
+
+% Example: figure
+%\begin{figure}[ht]
+%\centerline{
+%a
+%\resizebox{8.0cm}{8.0cm}{
+%\includegraphics*{metno_7/RCM_TxTn_ta.a2-ta.cl.eps}}
+%}
+%\centerline{
+%b
+%\resizebox{8.0cm}{8.0cm}{
+%\includegraphics*{metno_7/RCM_TxTn_oslo-months.eps}}
+%}
+%\caption{\small
+%caption
+%}
+%\label{fig:X}
+%\end{figure}
+
+\input{concl.tex}
+
+\clearpage
+\section*{\hspace{17mm}Acknowledgements}
+The present research and development is mostly funded by the the regional research funds Oslofjordfondet. We gratefully acknowledge the support. Smaller contributions from MET Norway, NIVA, HSN, Kystverket and Exxon are also appreciated. We would also like to thank Kai H. Christensen and Ann Kristin Sperrevik, both from MET Norway, for many helpful discussions and suggestions.   
+
+%\clearpage
+%\section*{\hspace{17mm}Appendix}
+
+
+%\begin{table}[h]
+%\vspace{-1.5cm}
+%{\bf Table A1: ESD statistics.}\\
+%\label{tab:1}
+%\begin{tabular}{llll}
+%\small OSLO - BLINDERN 18700 & 
+%\small $T_m$ $R^2$= 71 -- 86 $T_x$ $R^2$= 69 -- 82 $T_n$ $R^2$= 49 -- 76 \\
+%\small $\Delta T_m$ $q_{0.05}$= 3.21 $q_{0.50}$= 1.33 $q_{0.95}$= 1.75 \\  
+%\small $\Delta T_x$ $q_{0.05}$= 3.09 $q_{0.50}$= 1.38 $q_{0.95}$= 2.16 \\  
+%\small $\Delta T_n$ $q_{0.05}$= 3.15 $q_{0.50}$= 1.12 $q_{0.95}$= 1.01 \\
+%\end{tabular}
+%\end{table}
+
+\clearpage
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Specify path to where to find the citations (natbib)
+\bibliography{referanse-lpr}
+%\begin{thebibliography}{1}
+%\end{thebibliography}
+
+\clearpage
+\pagebreak
+ 
+
+\end{document}

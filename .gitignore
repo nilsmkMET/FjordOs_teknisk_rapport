@@ -1,0 +1,15 @@
+*.aux
+*.log
+*.pdf
+*.toc
+!met_rapport*.pdf
+*~
+*.zip
+*.tar*
+*.gz
+*.blg
+*.bbl
+*.dvi
+*.fdb*
+*.fls
+*.ps

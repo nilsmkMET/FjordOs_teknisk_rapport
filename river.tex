@@ -1,0 +1,40 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The influence of the freshwater discharged to the Oslofjord by way of the many rivers surrounding it is well known. A relevant example is shown by Figure \ref{fig:fjordos_salinity} constructed from a test run with an earlier version of the FjordOs CL model. In particular the impact on the daily mean sea surface salinity of Norway's two largest rivers, namely Glomma to the southeast and Drammenselva to the northwest, is evident. As shown it tends to create salinity fronts that in turn give rise to high lateral as well as vertical shear currents. From time to time these fronts are even strong enough to generate instabilities. To obtain a realistic, high resolution picture of the circulation in the Oslofjord it is therefore paramount to include the input from these and other smaller rivers.
+\input{Fig16_fjordos_salinity.tex}
+\input{Fig17_rivers01.tex} 
+
+To obtain the necessary information on the freshwater discharges to the Oslofjord within the FjordOs CL model domain we make use of discharge data from a database constructed by use of the hydrological model HBV \citep{beldr:etal:2003}. In essence the HBV model provides an estimate of the daily mean freshwater drained into the ocean (or fjord) from a preselected set of so called Main Catchment Areas (MCAs). Each MCA has in turn at least one or more rivers with an outlet to the sea. Let $Q_i$ be the daily mean freshwater discharged from the $i$th MCA and $A_i$ its area. Furthermore, let $q_{ij}$ be the discharge from the $j$th individual river associated with the $i$th MCA. Then assuming that $q_{ij}$ is entirely determined by the ratio of its local catchment area $a_{ij}$ to the area of the MCA, that is $A_i$ we get
+\be
+ \label{eq:riv02}
+  q_{ij} = \frac{a_{ij}}{A_i} Q_i.
+\ee
+
+A total of 15 of Norway's MCAs drains into the Oslofjord within the FjordOs model domain (Figure \ref{fig:rivers01}). These MCAs in turn contain a total of 46 river outlets as listed by Table \ref{tab:rivers01}. Six of these belongs to Glomma and five to Drammenselva. Hence there are 37 named rivers. Their locations are shown by Figure \ref{fig:rivers01}. By use of (\ref{eq:riv02}) and Table \ref{tab:rivers01} we may find the discharge emitted from each of them provided $Q_i$ is known. The HBV database contains information on $Q_i$ from 1962 up to and including the previous year with a lag of about six months. Thus $Q_i$ is not available for 2015 yet. Our hindcast period is from April 1, 2014 up to and including December 2015. We must therefore obtain information on $Q_i$ for 2015 from another source. To this end we make use of observations from the NVE website\footnote{\texttt{http://www2.nve.no/h/hd/plotreal/Q/index.html}} available in near real time. If we for instance consider the observed discharge from river $n$ within the $i$th MCA, we find $Q_i$ by rearranging (\ref{eq:riv02}), that is,
+\be
+ \label{eq:riv03}
+  Q_i = A_i\frac{q_{in}}{a_{in}}.
+\ee
+where $q_{in}$ is the known discharge of the $n$'th river and $a_{in}$ is the size of its local catchment area. Having thus found $Q_i$ we find the discharges from the remaining rivers of that MCA by use of (\ref{eq:riv02}) and the $a_{ij}$'s listed in Table \ref{tab:rivers01}.
+
+Using this method we first calculated the daily mean discharge for MCA numbers $i=1, 2, 3, 6, 8, 12$, and $15$ using the NVE station data for rivers nos. 1 (Iddefjorden/Haldenv.), 2-7 (Glomma), 13 (Mosseelva), 21 (Akerselva), no. 25 (Sandvikselva), 34-38 (Drammenselva) and 46 (Numedalsl{\aa}gen). The NVE station for MCA no. 2 is located far upriver (Figure \ref{fig:rivers01}), so a correction factor is estimated based on a least square fit between the NVE observations at R{\aa}n{\aa}sfoss and the Glommens og Laagens Brukseierforening (glb.no) observations at Sarpfoss for the period up to and including October 28, 2015. The result is
+\be
+ \label{eq:riv04}
+ Q_2 = 1.123 \cdot Q_{\text{R{\aa}n{\aa}sfoss}}.
+\ee
+This yields an estimate of the river discharge in Glomma with an RMS error of about 100 m$^3$/s. The corresponding discharges, that is, $q_{2j}$ for $j=2,3,\ldots,7$, are found by use of (\ref{eq:riv02}) and the size of the corresponding local catchment areas $a_{2j}$ listed in Table \ref{tab:rivers01}.
+\input{Tab02_rivers01.tex}
+
+For some of the 15 MCAs in the model domain, no observations are available ($i=$ 4, 5, 7, 9, 10, 11, 13, 14). We have estimated $Q_i$ for these rivers using the $Q_i$'s from MCA nos. 2 (Glomma), 3 (Mosseelva), 8 (Sandvikselva) and 15 (Nummedalsl{\aa}en). An auxiliary parameter was calculated that was the sum of the river discharges of all combinations of the four rivers. A least mean square fit was performed between this new parameter and the discharge for the MCA in question, namely 
+\be
+ \label{eq:riv05}
+ Q_i = \alpha_i \left(f_{i2} Q_2 + f_{i3} Q_3 + f_{i8} Q_8 +f_{i15} Q_{15}\right) + \beta_i .
+\ee
+The result of this analysis is shown in Table \ref{tab:rivers04}. It is somewhat surprising that the discharge from MCA nos. 2 and 15 did not influence the estimate of the discharge from the other MCAs.   
+\input{Tab03_rivers04.tex}
+
+Finally we emphasize that the rivers, in addition to providing freshwater to the fjord, are sources of nutrients, organic matter, bacteria, particles and contaminants. Several of these parameters are monitored in the national monitoring program \citep[Riverine Inputs and direct Discharges - RID,][]{skarb:etal:2011}. It is therefore possible to include information from the RID program in the river forcing, and hence the FjordOs CL model may be used in the future to model dispersion of any of the RID parameters.
+
+
+
+
+

@@ -1,0 +1,461 @@
+\documentclass[11pt,a4paper,english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{t1enc}
+
+% Latex report template for The Norwegian Meteorological Institute
+% Updated 2013-06-10 by Oskar Landgren, oskar.landgren@met.no
+% Edit as you wish, but please report if you find any errors. 
+
+% Lines starting with "%% LPR: ..." explains what is added 
+% or changed by Lars Petter Røed (LPR, larspr@met.no)
+
+\usepackage[english]{babel}
+%% LPR: Changed graphic package. Note that pstricks is in conflict with 
+%       package xcolor
+\usepackage{graphicx}
+%\usepackage{epsfig}		% To allow figures
+\usepackage{pstricks}		% To draw color pictures directly
+
+\usepackage{fancyhdr}
+\usepackage[verbose,a4paper,tmargin=30mm,bmargin=37.5mm,lmargin=30mm,rmargin=30mm]{geometry}
+
+%% LPR: Packages amssymbol and amsmath added to make use of extended
+%       special and mathematical characters, e.g., bold greek letters        
+\usepackage{amssymb}		% More special characters          
+\usepackage{amsmath}		% More mathematical characters
+
+%% LPR: The packages natbib added to ease referencing. Remember to 
+%       specify the pathway where to find the bib-file (the file 
+%       containing the references) at the location where you wish the
+%       the reference chapter to appear (see near the end of this file). 
+\usepackage{natbib}			% References
+
+%% LPR: The package multirow added to allow for multiple rows
+\usepackage{multirow}
+
+%% LPR: Package verbatim added to allow use of \begin{comment} and \end{comment}
+%       environment
+\usepackage{verbatim}		% Use the verbatim styles
+\usepackage{moreverb}		% Use the moreverb styles
+\usepackage{hhline}			% Helps to do lines in tables
+\usepackage{colortbl}		% To enable coloring table cells
+\usepackage{listings}		% To enable use of dinglings 
+\usepackage{graphics}		% is needed for \includegraphics
+    
+% The new visual identity uses Arial as main font. It is not a free font so 
+% it may not be included in your Linux installation.
+% Here we use the uarial package, which can be installed using: 
+% sudo getnonfreefonts-sys -a
+
+%\usepackage{uarial}
+% Another similar sans-serif font is Helvetica:
+\usepackage{helvet}
+
+% Required lines for Arial:
+%\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\rmdefault}{phv}
+\renewcommand{\sfdefault}{phv}
+
+\usepackage{rotating}
+
+% These packages were used before, but I could not find them in my TeX installation.
+%\usepackage{publication} 
+%\usepackage{tellus} 
+
+% The following puts section numbers in the margin. Comment it if not needed.
+% (see example at http://www.howtotex.com/tips-tricks/section-numbering-in-margins/ )
+%% LPR: Commented the next line, since it is in conflict with package pstricks 
+%\usepackage[usenames,dvipsnames]{xcolor}
+\makeatletter
+\def\@seccntformat#1{\llap{\csname the#1\endcsname\quad}}
+\makeatother
+% end of margin numbering
+
+\definecolor{METblue}{cmyk}{0.85,0,0.2,0.2}
+%% LPR: Added som new colorcoding
+\definecolor{Bluea}{cmyk}{.20,0,0,0}
+\definecolor{Blueb}{cmyk}{.40,0,0,0}
+\definecolor{Bluec}{cmyk}{.60,0,0,0}
+\definecolor{Blued}{cmyk}{.80,0,0,0}
+\definecolor{Bluee}{cmyk}{1.0,0,0,0}
+
+%\listfiles
+%\renewcommand{\baselinestretch}{1.33}
+\renewcommand{\baselinestretch}{1.1}
+% \geometry{verbose,a4paper,tmargin=20mm,bmargin=20mm,lmargin=30mm,rmargin=30mm}
+
+%% LPR: The following 12 items are my definitions/abbreviations to ease the
+%       writing 
+
+% 1. Often used names 
+
+% 2. Begin and end commands
+\def\be{\begin{equation}}
+\def\ee{\end{equation}}
+\def\beq{\begin{eqnarray}}
+\def\eeq{\end{eqnarray}}
+\def\bequ{\begin{eqnarray*}}
+\def\eequ{\end{eqnarray*}}
+
+% 2.3 Numerical time step and grid steps:
+\def\Dx{\Delta x}
+\def\Dy{\Delta y}
+\def\Dz{\Delta z}
+\def\Dt{\Delta t}
+\def\Ds{\Delta s}
+
+% 3. Miscellaneous
+\newcommand{\husk}[1]{\marginpar{\fbox{#1}}} %Gir feilmelding i margen
+\def\phv{\fontfamily{phv}\selectfont}
+%\def\nl{\newline}
+\def\half{\frac{1}{2}}
+
+% 5. Ordinary derivatives
+\def\pt{\partial_t}
+\def\px{\partial_x}
+\def\py{\partial_y}
+\def\pz{\partial_z}
+\def\del{\nabla}
+
+% 6. General coordinate derivatives
+\def\ptt{\partial_{t'}}
+\def\pxt{\partial_{x'}}
+\def\pyt{\partial_{y'}}
+\def\pzt{\partial_{s}}
+\def\delt{\nabla_s}
+
+% 7. Rho or isopycnal coordinate derivatives
+\def\ptr{\partial_{t'}}
+\def\pxr{\partial_{x'}}
+\def\pyr{\partial_{y'}}
+\def\pzr{\partial_{\rho}}
+\def\delr{\nabla_{\rho}}
+
+% 8. Sigma coordinate derivatives
+\def\pts{\partial_{t'}}
+\def\pxs{\partial_{x'}}
+\def\pys{\partial_{y'}}
+\def\pzs{\partial_{\sigma}}
+\def\dels{\nabla_{\sigma}}
+
+% 9. Often used vectors
+\def\bu{\mathbf u}
+\def\bi{\mathbf i}
+\def\bj{\mathbf j}
+\def\bk{\mathbf k}
+\def\vec{\mathbf}
+
+% 10. Mean quantities
+\def\meanu{\hat{\mathbf u}}
+\def\meanD{\overline{D}}
+\def\meanw{\overline{\omega}}
+\def\meanrho{\hat{\rho}}
+\def\meanp{\overline{p}}
+\def\meaneta{\overline{\eta}}
+\def\meaneps{\hat{\epsilon}}
+
+% 11. Often used abbreviations
+\def\HL{\textsf{HIRLAM}}
+\def\RO{\textsf{ROMS}}
+\def\ROH{\textsf{HIROMS}}
+\def\SV{\textsf{SVIM4}}
+\def\MI{\textsf{MIPOM}}
+\def\B2{\textsf{BaSIC2}}
+\def\B4{\textsf{BaSIC4}}
+\def\yr{\textsf{http://www.yr.no}}
+\def\Basic{\textsf{BaSIC}}
+\def\FB{Fugl{\o}ya - Bj{\o}rn{\o}ya}
+
+% 12. Often used quantities
+\def\Ds{\Delta s}
+%\def\PTV{\mathcal{Q}}
+%\def\trho{\tilde{\rho}}
+
+%% LPR: End my definitions
+
+%% LPR: Replaced the ams bibliography style by agufull04
+%\bibliographystyle{ams} 
+\bibliographystyle{agufull04}
+%\bibliographystyle{/home/larspr/LATEX/bst-files/agufull04}
+
+%% LPR: New size and headname for figures and tables
+\renewcommand{\figurename}{\footnotesize{Fig.}}
+\renewcommand{\tablename}{\footnotesize{Table}}
+
+%% LPR: Added the path to figures and plots
+\graphicspath{{./GRAPHICS/}}
+
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\noindent
+\begin{tabular}{@{} p{63mm} p{50mm} r}
+\includegraphics*[]{met_rapport_logo_eng}
+& {\Huge \bf MET {\color{gray} report} } &
+ \begin{minipage}[b]{28mm}
+  \begin{flushright}
+
+%% LPR: Changed Topic to Oceanography
+   \footnotesize no. 23/2014 \\ Oceanography              % Report number and
+   % Topic
+  \end{flushright}
+ \end{minipage}
+\end{tabular}
+
+%\vfill
+
+\begin{flushright}
+{ \huge \bf BaSIC Technical Report 3:}
+% Title
+
+% Optional subtitle here:
+\vspace{2mm}
+{ \Large \bf Evaluation of the BaSIC20 long term hindcast results}
+
+\vspace{5mm} 
+
+% Author(s) name
+Lars Petter R{\o}ed\footnote{Norwegian Meteorological Institute, R\&D Department, Norway}$^,$\footnote{Institute of Geosciences, University of Oslo}, Vidar Lien$^3$, Arne Melsom$^1$, Nils Melsom Kristensen$^1$, Yvonne Gusdal$^1$ and Bj{\o}rn {\AA}dlandsvik\footnote{Institute of Marine Research, Norway}
+\end{flushright}
+
+\vspace{2mm}
+
+\begin{figure}[!h]
+ \begin{center}
+ % \includegraphics*[width=12cm]{DeltaT_2005-2009_upper100m.png}          %
+  \includegraphics*[width=15cm]{./GRAPHICS/Fra_Nils_2014-07-25/b20kpp_25y_mean_85-09_energy.png}         
+  % Graphic
+ \end{center}
+\end{figure}
+
+%% LPR: Added command to add an empty page
+%\clearpage
+\newpage
+\thispagestyle{empty}
+\noindent \textbf{\color{white} aa} 
+
+\setlength{\unitlength}{1mm}  % Needed for picture environment
+
+\newpage
+\thispagestyle{empty}
+
+\begin{table}[!ht]
+
+\begin{tabular}[c]{lr}
+ \vspace{5mm}
+ \includegraphics*{met_rapport_logo_eng} & \hspace{70mm}
+ {\Huge \bf MET {\color{gray} report} } \\
+\end{tabular}
+
+\newpage
+\thispagestyle{empty}
+
+\begin{tabular}[t]{|p{110mm}|p{40mm}|} \hline
+ {\bf Title}                  & {\bf Date}               \\ 
+ %Title goes here
+ BaSIC Technical Report 3: Evaluation of the BaSIC20 long term hindcast results & August 30, 2014 %\today               
+ \\ \hline {\bf Section}                & {\bf Report no.}         \\ 
+  Ocean and Ice                        &  23/2014                  \\ \hline
+ {\bf Author(s)}                 & {\bf Classification}     \\ 
+ %Author(s) name
+ Lars Petter R{\o}ed, Vidar Lien, Arne Melsom, Nils Melsom Kristensen, Yvonne Gusdal and
+Bj{\o}rn {\AA}dlandsvik               
+                             & \begin{picture}(20,4)(-2,-1.0)
+                               \put (0,0){\circle{4}}
+                               \put (7,0){\makebox(0,0){Free}}
+                               \put (15,0){\circle*{4}}
+                               \put (27,0){\makebox(0,0){Restricted}}
+                               \end{picture}
+                               \\ \hline
+ {\bf Client(s)}              & {\bf Client's reference} \\ 
+ %Client name                  &               \\ \hline
+ Statoil                  & Contract: 4502465983  \\ \hline
+\end{tabular}
+
+\begin{tabular}[t]{|p{154mm}|}
+{\bf Abstract}                                          \\ 
+%Abstract text...
+\input{abstr.tex}
+\vfill
+\\ \hline
+{\bf Keywords}                                          \\ 
+Oceanography, Numerical Modeling, Ocean Climate, Arctic and Nordic Seas \\ 
+                                                        \\
+\hline
+\end{tabular}
+
+\begin{tabular}[t]{cc}
+                             &                            \\
+                             &                            \\
+                             &                            \\
+\line(1,0){70}               & \line(1,0){70}             \\ 
+Disciplinary signature       & Responsible signature      \\
+Lars Anders Breivik          & {\O}ystein Hov                \\       % Add names if needed
+\hspace{75mm}                & \hspace{75mm}              \\
+
+\end{tabular}
+\end{table}
+
+%\newpage
+\thispagestyle{fancy} % footer from fancyhdr package
+\headheight=15pt
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{comment}
+\begin{abstract}
+ \input{abstr.tex}    % Abstract text here ...
+\end{abstract}
+\end{comment}
+
+%\vfill
+
+\fancyfoot{
+% If abstract on separate page is not needed, move the following table to the page before
+\begin{tabular}[b]{p{28mm}p{28mm}p{28mm}p{28mm}p{28mm}}
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Meteorologisk institutt}\\ Meteorological Institute\\ Org.no 971274042\\ post@met.no
+ \end{minipage} & 
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Oslo}\\ P.O. Box 43 Blindern\\ 0313 Oslo, Norway\\ T. +47 22 96 30 00
+ \end{minipage} &
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Bergen}\\ All\'egaten 70\\ 5007 Bergen, Norway\\ T. +47 55 23 66 00
+ \end{minipage} & 
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Troms{\o}}\\ P.O. Box 6314\\ 9293 Troms{\o}, Norway\\ T. +47 77 62 13 00
+ \end{minipage} & 
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} www.met.no\\ www.yr.no
+ \end{minipage}
+\end{tabular}
+}
+
+%% LPR: Added command to add an empty page
+\newpage
+\thispagestyle{empty}
+\noindent \textbf{\color{white} aa} 
+
+%% LPR: Moved abstract up before Table of Contents
+%\clearpage
+
+
+\begin{comment}
+\fancyfoot{
+% If abstract on separate page is not needed, move the following table to the page before
+\begin{tabular}[b]{p{28mm}p{28mm}p{28mm}p{28mm}p{28mm}}
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Meteorologisk institutt}\\ Meteorological Institute\\ Org.no 971274042\\ post@met.no
+ \end{minipage} & 
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Oslo}\\ P.O. Box 43 Blindern\\ 0313 Oslo, Norway\\ T. +47 22 96 30 00
+ \end{minipage} &
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Bergen}\\ All\'egaten 70\\ 5007 Bergen, Norway\\ T. +47 55 23 66 00
+ \end{minipage} & 
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} {\bf Troms{\o}}\\ P.O. Box 6314\\ 9293 Troms{\o}, Norway\\ T. +47 77 62 13 00
+ \end{minipage} & 
+ \begin{minipage}[l]{28mm} \tiny \color{METblue} www.met.no\\ www.yr.no
+ \end{minipage}
+\end{tabular}
+}
+\end{comment}
+
+%% LPR: Added an empty page
+%\newpage
+%\thispagestyle{empty}
+%\noindent \textbf{\color{white} aa} 
+
+%\newpage
+\clearpage
+\pagenumbering{roman} % Use roman numerals for page numbering before main content.
+%\thispagestyle{empty} % Hide page numbers
+\tableofcontents 
+
+%% LPR: Added an empty page before List of tables and figures
+\newpage
+\thispagestyle{empty}
+\noindent \textbf{\color{white} aa}
+
+%% LPR: Added a list of Tables beginning on a new page
+\newpage
+\listoftables
+
+%% LPR: Added an empty page before List of Figures
+\newpage
+\thispagestyle{empty}
+\noindent \textbf{\color{white} aa}
+
+%% LPR: Added a list of Figures 
+%\newpage
+\listoffigures
+
+%% LPR: Added an empty page before Introduction
+\newpage
+\thispagestyle{empty}
+\noindent \textbf{\color{white} aa}
+
+%\newpage
+% Begin arabic page numbering (starts on 1)
+\pagenumbering{arabic}  
+
+%%%%%%%%%%%%%%%%%%%%%% Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{intro}
+
+%%%%%%%%%%%%%%%%%%%%%% The triply nested grid configuration %%%%%%%%%%
+\input{model.tex} 
+
+%%%%%%%%%%%%%%%%%%%%%% Observations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{resul.tex}
+
+%%%%%%%%%%%%%%%%%%%%%% Model results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{evalu.tex}
+
+%%%%%%%%%%%%%%%%%%%%%% Summary and conclusions %%%%%%%%%%%%%%%%%%%%%%%
+\input{concl.tex}
+
+%\section*{Acknowledgement}
+\addcontentsline{toc}{section}{Acknowledgement}
+\input{acknow.tex}
+
+%%% LPR: Added a specification where to find the path to the bibtex 
+%        reference file. Needed when using the package natbib. 
+%\bibliography{references}
+
+\addcontentsline{toc}{section}{References}
+\bibliography{$HOME/LATEX/bib-files/referanse-lpr.bib}
+%\bibliography{referanse-lpr.bib}
+
+%\clearpage
+%\section*{Appendix}
+
+%%%%%%%%%%%%%%%%%%%%%% Tables %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\clearpage
+%\addcontentsline{toc}{section}{Tables}
+%\input{table.tex}
+
+%\begin{table}[h]
+%\vspace{-1.5cm}
+%{\bf Table A1: ESD statistics.}\\
+%\label{tab:1}
+%\begin{tabular}{llll}
+%\small OSLO - BLINDERN 18700 & 
+%\small $T_m$ $R^2$= 71 -- 86 $T_x$ $R^2$= 69 -- 82 $T_n$ $R^2$= 49 -- 76 \\
+%\small $\Delta T_m$ $q_{0.05}$= 3.21 $q_{0.50}$= 1.33 $q_{0.95}$= 1.75 \\  
+%\small $\Delta T_x$ $q_{0.05}$= 3.09 $q_{0.50}$= 1.38 $q_{0.95}$= 2.16 \\  
+%\small $\Delta T_n$ $q_{0.05}$= 3.15 $q_{0.50}$= 1.12 $q_{0.95}$= 1.01 \\
+%\end{tabular}
+%\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%% Figures %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\addcontentsline{toc}{section}{Figures}
+\input{figur.tex} 
+
+%\clearpage
+%\pagebreak
+
+%\bibliography{refs}
+
+%\clearpage
+%\pagebreak
+ 
+
+\end{document}
+
+
+
