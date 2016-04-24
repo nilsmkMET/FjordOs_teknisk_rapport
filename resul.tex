@@ -1,25 +1,35 @@
 \section{Results from test runs}
 \label{sec:resul}
-All the results shown below are derived by running FjordOs CL on the Vilje supercomputer at the Norwegian High Performance Computing facilities in Trondheim. We show results from a hindcast initialized from NorKyst800 on April 1st, 2014 and continued up to and including the month of December 2015. 
-All inputs are as described in Section \ref{subsec:atmos}.
+All the results shown below are derived by running FjordOs CL on the Vilje supercomputer at the Norwegian High Performance Computing facilities in Trondheim. We show results from a hindcast initialized from NorKyst800 on April 1st, 2014 and continued up to and including the month of December 2015. All inputs are as described in Section \ref{subsec:atmos}.
  
-The results from the hindcast are further discussed and evaluated in some detail in an upcoming report \citep{hjelm:etal:2016}. Here we merely present snapshots of fields of currents, temperature, salinity and sea level so as to properly appreciate the level of details that the FjordOs CL model provides. In this we focus on six areas, namely the Inner Oslofjord, the Drammensfjord, the {\DR} area (henceforth {\DR}), the mid part of the Oslofjord (henceforth Slagen), the outer western part (henceforth Tristein) and the outer eastern part of the Oslofjord (henceforth Hvaler). 
+The results from the hindcast are further discussed and evaluated in some detail in an upcoming report \citep{hjelm:etal:2016}. Here we merely present snapshots of fields of currents, temperature, salinity and sea level on March 23, 2015, that is, about one year after commencing the simulation. To properly reveal and appreciate the level of details provided by the FjordOs CL model the simulated currents are shown for selected parts of the fjord (Section \ref{subsec:curre}). Regarding temperature (Section \ref{subsec:tempe}), salinity (Section \ref{subsec:salin}) and sea level (Section \ref{subsec:seale}) the whole computational domain covered by the FjordOs CL model is displayed. 
 
+\subsection{Currents}
+\label{subsec:curre}
+Focussing first on currents in the inner Oslofjord (Figures \ref{fig:curr_oslo}) we note the detailed current pattern returned by the FjordOs CL model. Although the speed is low compared to other parts of the fjord, e.g. in the {\DR} Sound (Figure \ref{fig:curr_drobak}) the pattern is rich in detail. 
+ \input{Fig_oslo_current.tex}
+
+As revealed by Figure \ref{fig:curr_drobak} the speed in the {\DR} Sound is much stronger with speeds bordering on 1 m/s. We also note the presence of the Jetty obstructing the western southward flow to pass through the two narrow openings in the Jetty. The picture is one of a strong outflow in which the flow in the {\DR} Sound is a jet hugging more or less the western bank due to the effect of the Earth's rotation.   
+ \input{Fig_drobak_current.tex}
+
+As we proceed southwards into Breiangen the fjord widens. The jetlike outflow feature is clearly visible, but with rich details in the current patterns on its flanks (Figure \ref{fig:curr_breiangen}). Also Drammenselva is discharging its water into Breiangen through the Drammensfjord as revealed by Figure \ref{fig:curr_drammen}. We observe that the the simulation replicated the swift current through the narrow opening between Drammensfjorden and Breiangen at Svelvik, again forming a jetlike structure.  
 \clearpage
-%\subsubsection{Currents}
- \input{Fig_oslo_current.tex}  
- \input{Fig_drobak_current.tex}  
  \input{Fig_breiangen_current.tex}  
- \input{Fig_drammen_current.tex}  
+ \input{Fig_drammen_current.tex}
+
+  
  \input{Fig_mefjord_current.tex}  
  \input{Fig_faerder_current.tex}  
 
-%\subsubsection{Temperature}
+\subsection{Temperature}
+\label{subsec:tempe}
  \input{Fig_hele_temp.tex}  
 
-%\subsubsection{Salinity}
+\subsection{Salinity}
+\label{subsec:salin}
  \input{Fig_hele_salt.tex}  
 
-%\subsubsection{Sea level}
+\subsubsection{Sea level}
+\label{subsec:seale}
  \input{Fig_hele_ssh.tex}  
 \clearpage
