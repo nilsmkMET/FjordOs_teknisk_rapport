@@ -21,6 +21,9 @@
 % 2013-06-28 - Thanks to Lars-Petter Røed for adding various useful packages. (Comments beginning with "LPR:")
 % 2013-06-18 - Added agufull04.bst and PDF versions of logo for pdftex users. Thanks to Magne Simonsen.
 
+%%%%\usepackage{hyperref}
+\usepackage{seqsplit}
+
 %%% For debugging, use
 % \errorcontextlines 10000
 
@@ -265,7 +268,7 @@
 &
  \begin{minipage}[b]{28mm}
   \begin{flushright}
-   \footnotesize \sffamily No. X/2015 \\ ISSN 2387-4201 \\ Oceanography	% Report number and Category
+   \footnotesize \sffamily No. X/2016 \\ ISSN 2387-4201 \\ Oceanography	% Report number and Category
   \end{flushright}
  \end{minipage}
 \end{tabular}
@@ -274,7 +277,7 @@
 
 %%% LPR: Note that the ratio between the two numbers in \fontsize{a}{b} below must be such that b/a = 1.2
 \begin{flushright}
-{\fontsize{20pt}{24pt}\selectfont \bf \sffamily A high-resolution, curvilinear model for the Oslofjord}	% Title
+{\fontsize{20pt}{24pt}\selectfont \bf \sffamily A high-resolution, curvilinear ROMS model for the Oslofjord}	% Title
 
 {\fontsize{14.0pt}{16.8pt}\selectfont \bf \sffamily FjordOs technical report No. 2% Subtitle
 %%% LPR: Changed from \vspace{5mm}
@@ -316,7 +319,7 @@
 \sffamily{
 \begin{tabular}[t]{|p{110mm}|p{40mm}|} \hline
 {\bf \sffamily Title}                  & {\bf \sffamily Date}               \\ 
-\small{A high-resolution, curvilinear model for the Oslofjord: FjordOs technical report No. 2}
+\small{A high-resolution, curvilinear ROMS model for the Oslofjord: FjordOs technical report No. 2}
                              & \today                   \\ \hline
 {\bf \sffamily Section}                & {\bf \sffamily Report no.}         \\ 
  Ocean and Ice                         &  4/2016                  \\ \hline
@@ -330,7 +333,7 @@
                                \end{picture}
                                \\ \hline
 {\bf \sffamily Client(s)}              & {\bf \sffamily Client's reference} \\ 
-Client name                  &               \\ \hline
+Oslofjordfondet                  &               \\ \hline
 \end{tabular}
 
 \begin{tabular}[t]{|p{154.3mm}|}
@@ -430,7 +433,7 @@ Client name                  &               \\ \hline
 
 \clearpage
 \section*{\hspace{17mm}Acknowledgements}
-The present research and development is mostly funded by the the regional research funds Oslofjordfondet. We gratefully acknowledge the support. Smaller contributions from MET Norway, NIVA, HSN, Kystverket and Exxon are also appreciated. We would also like to thank Kai H. Christensen, Ann Kristin Sperrevik, Yvonne Gusdal and Arne Melsom, all from MET Norway, for many helpful discussions and suggestions.   
+The present research and development is mostly funded by the the regional research funds Oslofjordfondet (Research grant no. 226022). We gratefully acknowledge the support. Smaller contributions from MET Norway, NIVA, HSN, Kystverket and Exxon are also appreciated. We would also like to thank Kai H. Christensen, Ann Kristin Sperrevik, Yvonne Gusdal and Arne Melsom, all from MET Norway, for many helpful discussions and suggestions.   
 
 %\clearpage
 %\section*{\hspace{17mm}Appendix}
