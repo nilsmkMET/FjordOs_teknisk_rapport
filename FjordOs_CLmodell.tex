@@ -284,7 +284,7 @@
 \vspace{5mm}	% \vspace{5mm}
 \\
 
-\sffamily Lars Petter R{\o}ed, Nils Melsom Kristensen, \\Karina Bakkel{\o}kken Hjelmervik and André Staalstr{\o}m	% Author name(s)
+\sffamily Lars Petter R{\o}ed$^{1,2}$, Nils Melsom Kristensen$^1$, \\Karina Bakkel{\o}kken Hjelmervik$^3$ and André Staalstr{\o}m$^4$	% Author name(s)
 }
 \end{flushright}
 
@@ -296,10 +296,19 @@
 %% LPR: The original MET_report template command 
 %\includegraphics*{met_rapport_monster} 
 %% is replaced by:
-  {\includegraphics[height=10cm]{kap5/salt_hele_0_current_crop_forside}}	% Graphic. Automatically uses PDF or EPS in same directory depending on latex or pdflatex.
+  \begin{pspicture}(0,0)(15,10)
+% Include graphs
+   \rput[b](7.5,1){\includegraphics[height=9cm]{kap5/salt_hele_0_current_crop_forside}}
+   \rput[bl](0,-2.5){\includegraphics[height=1cm]{met_logo_eng}}
+   \rput[b](7.5,-2.5){\includegraphics[height=1cm]{hsn_logo}}
+   \rput[br](15,-2.5){\includegraphics[height=1cm]{niva_logo}}
+  \end{pspicture}
+%  {\includegraphics[height=9cm]{kap5/salt_hele_0_current_crop_forside}}\\
+%  {\includegraphics[height=1cm]{kap5/salt_hele_0_current_crop_forside}}	% Graphic. Automatically uses PDF or EPS in same directory depending on latex or pdflatex.
  \end{center}
 \end{figure}
-
+\vspace{2cm}
+\noindent$^1$Norwegian Meteorological Intitute, $^2$Department of Geosciences, University of Oslo, $^3$University College of Southeast Norway, $^4$Norwegian Institute of Water Research 
 \newpage
 \newpage
 
