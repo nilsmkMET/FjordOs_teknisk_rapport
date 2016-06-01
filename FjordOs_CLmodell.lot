@@ -1,7 +1,7 @@
 \select@language {english}
-\contentsline {table}{\numberline {1}{\ignorespaces List of FjordOs CL model set-up parameters.}}{15}
-\contentsline {table}{\numberline {2}{\ignorespaces List of atmospheric forcing parameters.}}{17}
-\contentsline {table}{\numberline {3}{\ignorespaces Simulated tidal amplitudes [cm] and phases [deg] for a location close to the Viker tidal gauge station. The column "ATPXO" refers to the simulated tides using the TPXO Atlantic data base as input, while the column "Modified" refers to a run using adjusted tides as input. The column "Observed" refers to the observed tides at the nearby Viker tidal gauge station and is added for comparison.}}{19}
-\contentsline {table}{\numberline {4}{\ignorespaces As Table \ref {tab:1}, but for the Oscarsborg tidal gauge station.}}{20}
+\contentsline {table}{\numberline {1}{\ignorespaces List of FjordOs CL model set-up parameters.}}{16}
+\contentsline {table}{\numberline {2}{\ignorespaces List of atmospheric forcing parameters.}}{19}
+\contentsline {table}{\numberline {3}{\ignorespaces Simulated tidal amplitudes [cm] and phases [deg] for a location close to the Viker tidal gauge station. The column "ATPXO" refers to the simulated tides using the TPXO Atlantic data base as input, while the column "Modified" refers to a run using adjusted tides as input. The column "Observed" refers to the observed tides at the nearby Viker tidal gauge station and is added for comparison.}}{20}
+\contentsline {table}{\numberline {4}{\ignorespaces As Table \ref {tab:1}, but for the Oscarsborg tidal gauge station.}}{21}
 \contentsline {table}{\numberline {5}{\ignorespaces Rivers in the FjordOs CL model. The outlet positions follow the index convention in ROMS. The position is at a $u$-point if the direction is along the $x$-axis, and at a $v$-point if the direction is along the $y$-axis. The index counting in ROMS starts at 0, except for the $u$-points and $v$-points, where the count starts at 1. MCA: Main Catchment Area.}}{23}
 \contentsline {table}{\numberline {6}{\ignorespaces Estimating discharges in unobserved MCAs based on observations at four MCAs with observations using the least mean square fit (\ref {eq:riv05}).}}{26}
