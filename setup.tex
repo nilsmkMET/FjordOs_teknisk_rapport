@@ -1,12 +1,11 @@
-\clearpage
 \section{Model specifics}
 \label{sec:setup}
 The version of ROMS we use is downloaded from the main ROMS repository\footnote{\texttt{http://www.myroms.org/svn/src/tags/roms-3.6/}}, and includes the 3.6 version of the code from Hernan Arango (the Rutgers branch). This version is without sea ice, but in contrast to most other ROMS versions allows data assimilation.
 
 ROMS consists of several built-in schemes and algorithms, and it uses C-preprocessing to activate the various physical and numerical options. ROMS is a very up-to-date and modular code written in F90/F95. The entire input and output data structure of the model is via NetCDF which facilitates the interchange of data between computers, user community, and other independent analysis software.
-\input{Fig12_roms_grid_horizontal.tex}
 
 In the horizontal the model state variables are staggered using an Arakawa C-grid as shown by Figure \ref{fig:romsgridh}. The free-surface, density, and active/passive tracers are located at the center of the cell ($\rho$ points) whereas the horizontal current components ($u$, $v$) are located at the west/east and south/north edges of the cell, respectively. In ROMS all the arrays containing state variables are dimensioned with the same size in the horizontal to facilitate parallelization. The size of the model's horizontal grid is defined in the ROMS input file (\texttt{ocean.in}) with interior points only (denoted $L-1$ and $M-1$ in Figure \ref{fig:romsgridh}). However, all input forcing files must, and output result files do, contain fields at the full grid, which includes the one extra grid point in the boundary zone.
+\input{Fig12_roms_grid_horizontal.tex}
 
 In the vertical ROMS make use of a stretched terrain-following coordinate denoted $s=s(x,y,z,t)$, sometimes referred to as modified $\sigma$-coordinates \citep{song:haidv:1994}. As a result, each grid cell has a different level thickness (denoted $H_z = \pzs z$) and volume. The model state variables are vertically staggered so that horizontal momentum, density, and active/passive tracers are located at the center of the grid cell. The vertical velocity and vertical mixing variables ($Akt$, $Akv$, etc) are located at the bottom and top faces of the cell as displayed by Figure \ref{fig:romsgridv}. The stretched coordinate allows increased resolution in areas of interest, such as thermocline and bottom boundary layers. 
 \input{Fig13_roms_grid_vertical.tex}
@@ -15,11 +14,12 @@ Regarding the FjordOs CL model we opted for 42 $s$-layers with an increased reso
 \input{Fig14_roms_slevels.tex}
 
 ROMS has several options that determines the numerical schemes for lateral advection of momentum and tracers. In the results displayed in Section \ref{sec:resul}, we have employed a fourth-order, centered advection scheme. This necessitate the application of explicit lateral eddy viscosity and diffusion. To parametrize the subgrid-scale vertical mixing processes we use the Generic Length Scale (GLS) scheme  \citep{umlau:burch:2003}. Values chosen for the various parameters and options activated to derive the results exhibited by Section \ref{sec:resul} are listed in Table \ref{tab:parameters}. 
-
-To run the model several external inputs or forcing have to be supplied, such as atmospheric input, river input, tides, and input of sea level, currents and hydrography at the model's open lateral boundaries, in addition to bathymetry as described in Section \ref{sec:forcing}.   
 \input{Table_para.tex}
 
+To run the model several external inputs or forcing have to be supplied, such as atmospheric input, river input, tides, and input of sea level, currents and hydrography at the model's open lateral boundaries, in addition to bathymetry as described in Section \ref{sec:forcing}.   
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
 \section{Bathymetry and external forcing}
 \label{sec:forcing}
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
@@ -65,12 +65,11 @@ The FjordOs CL grid has one wide open boundary located at its southern end towar
 The NorKyst800 is run operationally at MET Norway once a day and provides hourly forecasts with a lead time of 66 hrs. Daily mean values are computed and stored as netCDF files. These fields with some modifications may in addition be used as initial values to "semi-hot" start FjordOs (Section \ref{sec:resul}). The archive containing daily mean values is updated automatically and adds back to 2012. The hourly forecast values are stored and archived one week back in time only. Both archives are available from MET Norway's thredds server\footnote{\texttt{http://thredds.met.no/thredds/fou-hi/norkyst800m.html}}. As input at the lateral open boundary FjordOs CL requires daily mean sea level values in addition to daily mean depth profiles of currents temperature and salinity.
 
 %    %    %    %    %    %    %    %    %    %    %    %    %   
-\clearpage
 \subsubsection{Tidal forcing}
 \label{subsubsec:tides}
 \input{tides.tex}
-%  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  
 
+%  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  %  
 \subsection{River input}
 \label{subsec:river}
 \input{river.tex}
